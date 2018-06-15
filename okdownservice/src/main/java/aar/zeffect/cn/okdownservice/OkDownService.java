@@ -40,7 +40,7 @@ public class OkDownService extends Service {
 
     private void parseAction(String action, Intent intent) {
         if (TextUtils.isEmpty(action)) return;
-        if (action.equals(DownUtils.ADD_TASK_ACTION)) {
+        if (action.equals(DownStr.ADD_TASK_ACTION)) {
             if (downImp == null) downImp = new DownImp(this);
             String url = intent.getStringExtra(DownStr.URL);
             String savePath = intent.getStringExtra(DownStr.PATH);

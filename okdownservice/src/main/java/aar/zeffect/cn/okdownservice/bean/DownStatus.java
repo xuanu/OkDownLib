@@ -6,10 +6,10 @@ public class DownStatus implements Serializable {
     public static final String STATUS_START = "STATUS_START", STATUS_COMPLETE = "STATUS_COMPLETE", STATUS_CANCEL = "STATUS_CANCEL", STATUS_ERROR = "STATUS_ERROR", STATUS_WARN = "STATUS_WARN", STATUS_RETRY = "STATUS_RETRY", STATUS_CONNECT = "STATUS_CONNECT", STATUS_PROGRESS = "STATUS_PROGRESS";
 
 
-    private String url;
-    private String savePath;
-    private String status;
-    private int progress;
+    private String url="";
+    private String savePath="";
+    private String status="";
+    private int progress=0;
 
     public String getUrl() {
         return url;
