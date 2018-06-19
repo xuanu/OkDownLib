@@ -10,6 +10,7 @@ import java.io.File;
 
 import aar.zeffect.cn.okdownservice.OkDownService;
 import aar.zeffect.cn.okdownservice.bean.DownStatus;
+import aar.zeffect.cn.okdownservice.bean.Task;
 
 public class DownUtils {
 
@@ -23,14 +24,45 @@ public class DownUtils {
         if (pTarget == null) return;
         if (TextUtils.isEmpty(url)) return;
         if (cacheFile == null) return;
+        addTask(pTarget, new Task()
+                .setSavePath(cacheFile.getAbsolutePath())
+                .setUrl(url));
+    }
+
+    public static void addTask(Context pTarget, Task task) {
+        if (pTarget == null) return;
+        if (task == null) return;
         pTarget.startService(new Intent(pTarget, OkDownService.class)
                 .setAction(DownStr.ADD_TASK_ACTION)
-                .putExtra(DownStr.URL, url)
-                .putExtra(DownStr.PATH, cacheFile.getAbsolutePath()));
+                .putExtra(DownStr.DATA, task));
     }
 
 
-    public static boolean isDown(String url, File cacheFile) {
+    public static void cancelTask(Context pTarget, String url, File cacheFile) {
+        if (pTarget == null) return;
+        if (TextUtils.isEmpty(url)) return;
+        if (cacheFile == null) return;
+        cancelTask(pTarget, new Task()
+                .setSavePath(cacheFile.getAbsolutePath())
+                .setUrl(url));
+    }
+
+    public static void cancelTask(Context pTarget, Task task) {
+        if (pTarget == null) return;
+        if (task == null) return;
+        pTarget.startService(new Intent(pTarget, OkDownService.class)
+                .setAction(DownStr.CANCEL_TASK_ACTION)
+                .putExtra(DownStr.DATA, task));
+    }
+
+    public static void cancelAllTask(Context pTarget) {
+        if (pTarget == null) return;
+        pTarget.startService(new Intent(pTarget, OkDownService.class)
+                .setAction(DownStr.CANCEL_ALL_TASK_ACTION));
+    }
+
+
+    public static boolean isCompleted(String url, File cacheFile) {
         return StatusUtil.getStatus(url, cacheFile.getParent(), cacheFile.getName()) == StatusUtil.Status.COMPLETED;
     }
 

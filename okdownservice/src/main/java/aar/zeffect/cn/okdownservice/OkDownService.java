@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import java.io.File;
 
+import aar.zeffect.cn.okdownservice.bean.Task;
 import aar.zeffect.cn.okdownservice.utils.DownStr;
 import aar.zeffect.cn.okdownservice.utils.DownUtils;
 
@@ -42,10 +43,21 @@ public class OkDownService extends Service {
         if (TextUtils.isEmpty(action)) return;
         if (action.equals(DownStr.ADD_TASK_ACTION)) {
             if (downImp == null) downImp = new DownImp(this);
-            String url = intent.getStringExtra(DownStr.URL);
-            String savePath = intent.getStringExtra(DownStr.PATH);
-            if (TextUtils.isEmpty(url) || TextUtils.isEmpty(savePath)) return;
-            else downImp.addTask(url, new File(savePath));
+            if (intent.hasExtra(DownStr.DATA)) {
+                Object dataObject = intent.getSerializableExtra(DownStr.DATA);
+                if (dataObject instanceof Task) {
+                    downImp.addTask((Task) dataObject);
+                }
+            }
+        } else if (action.equals(DownStr.CANCEL_TASK_ACTION)) {
+            if (downImp != null && intent.hasExtra(DownStr.DATA)) {
+                Object dataObject = intent.getSerializableExtra(DownStr.DATA);
+                if (dataObject instanceof Task) {
+                    downImp.cancel((Task) dataObject);
+                }
+            }
+        } else if (action.equals(DownStr.CANCEL_ALL_TASK_ACTION)) {
+            if (downImp != null) downImp.cancelAll();
         }
     }
 

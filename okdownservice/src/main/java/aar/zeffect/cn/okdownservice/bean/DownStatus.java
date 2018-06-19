@@ -9,7 +9,7 @@ public class DownStatus implements Serializable {
     private String url="";
     private String savePath="";
     private String status="";
-    private int progress=0;
+    private float progress=0;
 
     public String getUrl() {
         return url;
@@ -38,11 +38,11 @@ public class DownStatus implements Serializable {
         return this;
     }
 
-    public int getProgress() {
+    public float getProgress() {
         return progress;
     }
 
-    public DownStatus setProgress(int progress) {
+    public DownStatus setProgress(float progress) {
         this.progress = progress;
         return this;
     }
