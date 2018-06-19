@@ -6,8 +6,14 @@
 1. [DownUtils](https://github.com/xuanu/OkDownLib/blob/master/okdownservice/src/main/java/aar/zeffect/cn/okdownservice/utils/DownUtils.java),下载工具类
 ```
 默认跳过已下载资源，不分块。
-addTask(url,file);
-isDown(url,file);
+addTask(context,url,file);
+addTask(context,task);
+cancelTask(context,url,file);
+cancelTask(context,task);  
+cancelAllTask(context);
+isCompleted(url,file);//是否完成
+String statu2Str(DownStatus);//根据状态返回一个默认的字符，如下载中，已下载。
+getStatus(intent);//从广播中直接拿到数据，拿不到返回null
 ```
 2. 通过应用内广播接收回调
 
