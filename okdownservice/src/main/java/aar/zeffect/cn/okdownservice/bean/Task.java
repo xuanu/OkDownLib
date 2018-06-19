@@ -5,6 +5,16 @@ import java.io.Serializable;
 public class Task implements Serializable {
     private String url;
     private String savePath;
+    private boolean wifiRequired = false;
+
+    public boolean isWifiRequired() {
+        return wifiRequired;
+    }
+
+    public Task setWifiRequired(boolean wifiRequired) {
+        this.wifiRequired = wifiRequired;
+        return this;
+    }
 
     public String getUrl() {
         return url;

@@ -36,6 +36,7 @@ public class DownImp {
                 .setConnectionCount(1)
                 .setPassIfAlreadyCompleted(true)
                 .setMinIntervalMillisCallbackProcess(1000)
+                .setWifiRequired(tempTask.isWifiRequired())
                 .build();
         if (StatusUtil.isCompleted(task)) {
             sendBroad(mContext, DownStatus.STATUS_COMPLETE, task);

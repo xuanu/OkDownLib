@@ -9,7 +9,7 @@
 addTask(context,url,file);
 addTask(context,task);
 cancelTask(context,url,file);
-cancelTask(context,task);  
+cancelTask(context,task);
 cancelAllTask(context);
 isCompleted(url,file);//是否完成
 String statu2Str(DownStatus);//根据状态返回一个默认的字符，如下载中，已下载。
