@@ -3,7 +3,7 @@
 
 > 使用[OkDownload](https://github.com/lingochamp/okdownload)实现的下载功能，方便自己多个模块共用。
 
-> 可通过Task添加任务，实现更多功能。[Task]()
+> 可通过Task添加任务，实现更多功能。[Task](https://github.com/xuanu/OkDownLib/blob/master/okdownservice/src/main/java/aar/zeffect/cn/okdownservice/bean/Task.java)
 ```
     private String url;//下载地址
     private String savePath;//保存地址
