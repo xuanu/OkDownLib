@@ -13,6 +13,7 @@ import android.view.View;
 import java.io.File;
 
 import aar.zeffect.cn.okdownservice.bean.DownStatus;
+import aar.zeffect.cn.okdownservice.bean.Task;
 import aar.zeffect.cn.okdownservice.utils.DownStr;
 import aar.zeffect.cn.okdownservice.utils.DownUtils;
 
@@ -29,14 +30,17 @@ public class MainActivity extends Activity {
         findViewById(R.id.startDown).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E8%85%BE%E8%AE%AF%E8%A7%86%E9%A2%91VIP%E7%89%88v18.apk", new File(getExternalCacheDir(), "task1.temp"));
-                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E4%BC%98%E9%85%B7VIP%E7%89%88v60.apk", new File(getExternalCacheDir(), "task2.temp"));
-                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E8%8A%92%E6%9E%9CTV%20VIP%E7%89%88v11.apk", new File(getExternalCacheDir(), "task3.temp"));
-                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E7%88%B1%E5%A5%87%E8%89%BAVIP%E7%89%88v38.apk", new File(getExternalCacheDir(), "task4.temp"));
-                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E8%85%BE%E8%AE%AF%E8%A7%86%E9%A2%91VIP%E7%89%88v18.apk", new File(getExternalCacheDir(), "task5.temp"));
-                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E4%BC%98%E9%85%B7VIP%E7%89%88v60.apk", new File(getExternalCacheDir(), "task6.temp"));
-                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E8%8A%92%E6%9E%9CTV%20VIP%E7%89%88v11.apk", new File(getExternalCacheDir(), "task7.temp"));
-                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E7%88%B1%E5%A5%87%E8%89%BAVIP%E7%89%88v38.apk", new File(getExternalCacheDir(), "task8.temp"));
+//                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E8%85%BE%E8%AE%AF%E8%A7%86%E9%A2%91VIP%E7%89%88v18.apk", new File(getExternalCacheDir(), "task1.temp"));
+//                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E4%BC%98%E9%85%B7VIP%E7%89%88v60.apk", new File(getExternalCacheDir(), "task2.temp"));
+//                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E8%8A%92%E6%9E%9CTV%20VIP%E7%89%88v11.apk", new File(getExternalCacheDir(), "task3.temp"));
+//                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E7%88%B1%E5%A5%87%E8%89%BAVIP%E7%89%88v38.apk", new File(getExternalCacheDir(), "task4.temp"));
+//                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E8%85%BE%E8%AE%AF%E8%A7%86%E9%A2%91VIP%E7%89%88v18.apk", new File(getExternalCacheDir(), "task5.temp"));
+//                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E4%BC%98%E9%85%B7VIP%E7%89%88v60.apk", new File(getExternalCacheDir(), "task6.temp"));
+//                DownUtils.addTask(mContext, "https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E8%8A%92%E6%9E%9CTV%20VIP%E7%89%88v11.apk", new File(getExternalCacheDir(), "task7.temp"));
+                DownUtils.addTask(mContext, new Task().setUrl("https://raw.githubusercontent.com/gitlabBestResource/bestapk/master/%E7%88%B1%E5%A5%87%E8%89%BAVIP%E7%89%88v38.apk")
+                        .setSavePath(new File(getExternalCacheDir(), "task8.temp").getAbsolutePath())
+                        .setShowNotifi(true)
+                        .setNotifiTitle("爱奇艺VIP.apk"));
             }
         });
 

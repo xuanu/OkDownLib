@@ -69,6 +69,12 @@ public class DownUtils {
     public static String statu2Str(DownStatus status) {
         if (status == null) return "未下载";
         String statuStr = status.getStatus();
+        return statu2Str(statuStr);
+    }
+
+    public static String statu2Str(String status) {
+        if (TextUtils.isEmpty(status)) return "未下载";
+        String statuStr = status;
         if (statuStr.equals(DownStatus.STATUS_START)) return "已开始";
         else if (statuStr.equals(DownStatus.STATUS_CANCEL)) return "已取消";
         else if (statuStr.equals(DownStatus.STATUS_COMPLETE)) return "已完成";
@@ -79,6 +85,7 @@ public class DownUtils {
         else if (statuStr.equals(DownStatus.STATUS_WARN)) return "警告";
         else return "未下载";
     }
+
 
     /**
      * 获取广播中的下载信息

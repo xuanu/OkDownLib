@@ -3,6 +3,17 @@
 
 > 使用[OkDownload](https://github.com/lingochamp/okdownload)实现的下载功能，方便自己多个模块共用。
 
+> 可通过Task添加任务，实现更多功能。[Task]()
+```
+    private String url;//下载地址
+    private String savePath;//保存地址
+    private boolean wifiRequired = false;//使用WIFI下载
+    private boolean showNotifi=false;//是否显示通知栏
+    private Intent openIntent;//完成后的打开方式
+    private String notifiTitle;//通知栏标题
+
+```
+
 1. [DownUtils](https://github.com/xuanu/OkDownLib/blob/master/okdownservice/src/main/java/aar/zeffect/cn/okdownservice/utils/DownUtils.java),下载工具类
 ```
 默认跳过已下载资源，不分块。
