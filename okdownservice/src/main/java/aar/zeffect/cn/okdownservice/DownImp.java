@@ -50,6 +50,7 @@ public class DownImp {
             return;
         }
         task.enqueue(new MyDownListener(mContext, tempTask));
+        sendBroad(mContext, DownStatus.STATUS_CONNECT, task);
     }
 
     public void cancel(Task tempTask) {
@@ -72,6 +73,7 @@ public class DownImp {
             OkDownload.with().downloadDispatcher().cancel(task);
             return;
         }
+        sendBroad(mContext, DownStatus.STATUS_CANCEL, task);
     }
 
     public void cancelAll() {
