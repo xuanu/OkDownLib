@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import com.liulishuo.okdownload.StatusUtil;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import aar.zeffect.cn.okdownservice.OkDownService;
 import aar.zeffect.cn.okdownservice.bean.DownStatus;
@@ -37,6 +39,25 @@ public class DownUtils {
                 .putExtra(DownStr.DATA, task));
     }
 
+    /**
+     * 如果
+     *
+     * @param pTarget
+     * @param tasks    需要下载的列表
+     * @param infoTask 用于标记任务的Task,我回调用的时候会用这个Task的tag(必须有值)，可以用这个来确定是不是我需要的队列。
+     */
+    public static void addTasks(Context pTarget, ArrayList<Task> tasks, Task infoTask, String tag) {
+        if (pTarget == null) return;
+        if (tasks == null || tasks.isEmpty()) return;
+        if (infoTask == null) return;
+        if (TextUtils.isEmpty(tag)) return;
+        infoTask.setTag(tag);
+        pTarget.startService(new Intent(pTarget, OkDownService.class)
+                .setAction(DownStr.ADD_TASKS_ACTION)
+                .putParcelableArrayListExtra(DownStr.TASKS, tasks)
+                .putExtra(DownStr.DATA, infoTask));
+    }
+
 
     public static void cancelTask(Context pTarget, String url, File cacheFile) {
         if (pTarget == null) return;
@@ -53,6 +74,12 @@ public class DownUtils {
         pTarget.startService(new Intent(pTarget, OkDownService.class)
                 .setAction(DownStr.CANCEL_TASK_ACTION)
                 .putExtra(DownStr.DATA, task));
+    }
+
+    public static void cancelTag(Context pTarget, String tag) {
+        if (TextUtils.isEmpty(tag)) return;
+        if (pTarget == null) return;
+        pTarget.startService(new Intent(pTarget, OkDownService.class).setAction(DownStr.CANCEL_TAG_TASK_ACTION).putExtra(DownStr.DATA, tag));
     }
 
     public static void cancelAllTask(Context pTarget) {

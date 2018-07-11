@@ -13,11 +13,24 @@
         android:layout_height="wrap_content"
         android:text="开始下载" />
 
+
+    <Button
+        android:id="@+id/startTasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="多个下载任务" />
+
     <Button
         android:id="@+id/cancelOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="取消一个" />
+
+    <Button
+        android:id="@+id/cancelmul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消多任务" />
 
     <Button
         android:id="@+id/cancelAllTask"
