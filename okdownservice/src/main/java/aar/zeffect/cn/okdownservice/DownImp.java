@@ -35,6 +35,7 @@ import aar.zeffect.cn.okdownservice.bean.Task;
 import aar.zeffect.cn.okdownservice.utils.DownStr;
 import aar.zeffect.cn.okdownservice.utils.DownUtils;
 import aar.zeffect.cn.okdownservice.utils.FileUtils;
+import aar.zeffect.cn.okdownservice.utils.MD5Crypto;
 
 
 public class DownImp {
@@ -138,11 +139,14 @@ public class DownImp {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(tag)) return;
-                File tagFile = new File(mContext.getExternalFilesDir("tag"), tag + ".info");
-                List<Integer> taskids = string2TaskId(FileUtils.read(tagFile.getAbsolutePath()));
-                if (taskids != null && !taskids.isEmpty()) {
-                    for (int i = 0; i < taskids.size(); i++) {
-                        OkDownload.with().downloadDispatcher().cancel(taskids.get(i));
+                File tagFile = new File(mContext.getExternalFilesDir("tag"), MD5Crypto.Md5_32(tag) + ".info");
+                if (tagFile.isDirectory()) tagFile.delete();
+                if (tagFile.exists()) {
+                    List<Integer> taskids = string2TaskId(FileUtils.read(tagFile.getAbsolutePath()));
+                    if (taskids != null && !taskids.isEmpty()) {
+                        for (int i = 0; i < taskids.size(); i++) {
+                            OkDownload.with().downloadDispatcher().cancel(taskids.get(i));
+                        }
                     }
                 }
                 removeTag(tagFile);
