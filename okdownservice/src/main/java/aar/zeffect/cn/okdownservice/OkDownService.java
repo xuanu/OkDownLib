@@ -63,22 +63,6 @@ public class OkDownService extends Service {
                     }
                 }
             }
-        } else if (action.equals(DownStr.CANCEL_TASK_ACTION)) {
-            if (downImp != null && intent.hasExtra(DownStr.DATA)) {
-                Object dataObject = intent.getParcelableExtra(DownStr.DATA);
-                if (dataObject instanceof Task) {
-                    downImp.cancel((Task) dataObject);
-                }
-            }
-        } else if (action.equals(DownStr.CANCEL_ALL_TASK_ACTION)) {
-            if (downImp != null) downImp.cancelAll();
-        } else if (action.equals(DownStr.CANCEL_TAG_TASK_ACTION)) {
-            if (downImp != null && intent.hasExtra(DownStr.DATA)) {
-                String tagStr = intent.getStringExtra(DownStr.DATA);
-                if (!TextUtils.isEmpty(tagStr)) {
-                    downImp.cancel(tagStr);
-                }
-            }
         }
     }
 

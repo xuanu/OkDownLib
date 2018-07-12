@@ -1,14 +1,9 @@
 package aar.zeffect.cn.okdownservice.bean;
 
 import android.content.Intent;
-import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import aar.zeffect.cn.okdownservice.utils.MD5Crypto;
+import android.text.TextUtils;
 
 public class Task implements Parcelable {
 
@@ -24,7 +19,7 @@ public class Task implements Parcelable {
     private String tag;
 
     public String getTag() {
-        return MD5Crypto.Md5_32(tag);
+        return tag;
     }
 
     public Task setTag(String tag) {
@@ -89,7 +84,12 @@ public class Task implements Parcelable {
     }
 
 
-    public Task() {
+    public Task(String tag, String downUrl, String savePath) {
+        if (TextUtils.isEmpty(tag))
+            throw new NullPointerException("tag must not empty");
+        this.tag = tag;
+        this.url = downUrl;
+        this.savePath = savePath;
     }
 
     @Override
@@ -129,21 +129,5 @@ public class Task implements Parcelable {
             return new Task[size];
         }
     };
-
-    public JSONObject toLocalJson() {
-        JSONObject dataJson = new JSONObject();
-        try {
-            dataJson.put("url", url);
-            dataJson.put("savepath", savePath);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return dataJson;
-    }
-
-    public static Task toTask(JSONObject data) {
-        if (data == null) return null;
-        return new Task().setUrl(data.optString("url")).setSavePath("savepath");
-    }
 
 }

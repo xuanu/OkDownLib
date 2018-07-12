@@ -25,6 +25,7 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -96,12 +97,11 @@ public class DownImp {
                     }
                 }
                 if (!TextUtils.isEmpty(infoTask.getTag())) {//任务队列存在本地
-                    File tagFile = new File(mContext.getExternalFilesDir("tag"), infoTask.getTag() + ".info");
+                    File tagFile = new File(mContext.getExternalFilesDir("tag"), MD5Crypto.Md5_32(infoTask.getTag()) + ".info");
                     if (tagFile.exists()) tagFile.delete();
                     if (tagFile.isDirectory()) tagFile.delete();
                     if (!tagFile.exists()) tagFile.getParentFile().mkdirs();
                     FileUtils.write(tagFile.getAbsolutePath(), list2String(downloadTasks).toString());
-                    Log.e("zeffect", "save tag:" + tagFile.getAbsolutePath());
                 }
                 sendBroad(mContext, DownStatus.STATUS_CONNECT, 0, infoTask.getUrl(), new File(infoTask.getSavePath()), infoTask.getTag());
             }
@@ -118,7 +118,7 @@ public class DownImp {
         return dataArray;
     }
 
-    private List<Integer> string2TaskId(String data) {
+    public static List<Integer> string2TaskId(String data) {
         try {
             JSONArray taskArray = new JSONArray(data);
             List<Integer> tasks = new ArrayList<>(taskArray.length());
@@ -132,67 +132,6 @@ public class DownImp {
             return null;
         }
 
-    }
-
-    public void cancel(final String tag) {
-        singleThreadExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (TextUtils.isEmpty(tag)) return;
-                File tagFile = new File(mContext.getExternalFilesDir("tag"), MD5Crypto.Md5_32(tag) + ".info");
-                if (tagFile.isDirectory()) tagFile.delete();
-                if (tagFile.exists()) {
-                    List<Integer> taskids = string2TaskId(FileUtils.read(tagFile.getAbsolutePath()));
-                    if (taskids != null && !taskids.isEmpty()) {
-                        for (int i = 0; i < taskids.size(); i++) {
-                            OkDownload.with().downloadDispatcher().cancel(taskids.get(i));
-                        }
-                    }
-                }
-                removeTag(tagFile);
-            }
-        });
-
-    }
-
-    private void removeTag(File tagFile) {
-        if (tagFile != null && tagFile.exists()) {
-            tagFile.delete();
-            Log.e("zeffect", "remove tag:" + tagFile.getAbsolutePath());
-        }
-    }
-
-    public void cancel(final Task tempTask) {
-        singleThreadExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (tempTask == null) return;
-                String url = tempTask.getUrl();
-                if (TextUtils.isEmpty(url)) return;
-                String savePath = tempTask.getSavePath();
-                if (TextUtils.isEmpty(savePath)) return;
-                File saveFile = new File(savePath);
-                DownloadTask task = new DownloadTask.Builder(url, saveFile)
-                        .setConnectionCount(1)
-                        .setPassIfAlreadyCompleted(true)
-                        .setMinIntervalMillisCallbackProcess(1000)
-                        .build();
-                if (StatusUtil.isCompleted(task)) {
-                    sendBroad(mContext, DownStatus.STATUS_COMPLETE, 100, task.getUrl(), task.getFile());
-                    return;
-                }
-                if (StatusUtil.isSameTaskPendingOrRunning(task)) {
-                    OkDownload.with().downloadDispatcher().cancel(task);
-                    return;
-                }
-                sendBroad(mContext, DownStatus.STATUS_CANCEL, 0, task.getUrl(), task.getFile());
-            }
-        });
-
-    }
-
-    public void cancelAll() {
-        OkDownload.with().downloadDispatcher().cancelAll();
     }
 
 
@@ -340,18 +279,18 @@ public class DownImp {
 
     }
 
-    private static void sendBroad(Context pTarget, String staus, float progress, String tempUrl, File saveFile) {
+    public static void sendBroad(Context pTarget, String staus, float progress, String tempUrl, File saveFile) {
         sendBroad(pTarget, staus, progress, tempUrl, saveFile, "");
     }
 
-    private static void sendBroad(Context pTarget, String staus, float progress, String tempUrl, File saveFile, String tag) {
+    public static void sendBroad(Context pTarget, String staus, float progress, String tempUrl, File saveFile, String tag) {
         if (pTarget != null) {
             LocalBroadcastManager.getInstance(pTarget)
                     .sendBroadcast(new Intent(DownStr.ACTION_STATU).putExtra(DownStr.DATA, new DownStatus()
                             .setProgress(progress)
                             .setStatus(staus)
                             .setTag(tag)
-                            .setSavePath(saveFile.getAbsolutePath())
+                            .setSavePath(saveFile == null ? "" : saveFile.getAbsolutePath())
                             .setUrl(tempUrl)));
         }
     }
