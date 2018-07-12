@@ -85,7 +85,7 @@ public class Task implements Parcelable {
 
 
     public Task(String tag, String downUrl, String savePath) {
-        if (TextUtils.isEmpty(tag))
+        if (tag == null)
             throw new NullPointerException("tag must not empty");
         this.tag = tag;
         this.url = downUrl;
